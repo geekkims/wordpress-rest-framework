@@ -1,0 +1,173 @@
+/* TechSpace REST Framework Admin Styles */
+
+.techspace-wrap {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.techspace-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.techspace-header h1 {
+    margin: 0;
+    color: #23282d;
+}
+
+.techspace-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.techspace-nav a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: #f1f1f1;
+    color: #23282d;
+    transition: background 0.3s ease;
+}
+
+.techspace-nav a:hover,
+.techspace-nav a.active {
+    background: #0073aa;
+    color: #fff;
+}
+
+.techspace-dashboard-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.techspace-chart {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.techspace-top-users {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.techspace-form-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.techspace-form-table th {
+    text-align: left;
+    padding: 15px 10px;
+    width: 200px;
+    font-weight: 600;
+}
+
+.techspace-form-table td {
+    padding: 15px 10px;
+}
+
+.techspace-form-table input[type="text"],
+.techspace-form-table select {
+    width: 100%;
+    max-width: 400px;
+}
+
+.techspace-button {
+    background: #0073aa;
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.techspace-button:hover {
+    background: #005177;
+}
+
+.techspace-toast {
+    position: fixed;
+    top: -100px;
+    right: 20px;
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: top 0.3s, opacity 0.3s;
+    z-index: 9999;
+}
+
+.techspace-toast.success {
+    background: #4CAF50;
+}
+
+.techspace-toast.error {
+    background: #F44336;
+}
+
+.techspace-tooltip {
+    display: inline-block;
+    margin-left: 5px;
+    color: #666;
+    cursor: help;
+}
+
+.techspace-toggle-section {
+    cursor: pointer;
+    user-select: none;
+}
+
+.techspace-toggle-section i {
+    margin-left: 5px;
+}
+
+.techspace-hidden {
+    display: none;
+}
+
+#techspace_data_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#techspace_data_table th,
+#techspace_data_table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#techspace_data_table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#load_more_data {
+    display: block;
+    margin: 20px auto;
+}
+
+@media screen and (max-width: 782px) {
+    .techspace-dashboard-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .techspace-form-table th {
+        width: auto;
+    }
+}
