@@ -67,20 +67,23 @@ class TechSpace_Admin {
 
     <h2>API Usage Instructions</h2>
     <?php if ($api_key) : ?>
-    <p>Your API Key: <strong><?php echo esc_html($api_key); ?></strong></p>
+    <p>Your API Key: <strong id="api-key"><?php echo esc_html($api_key); ?></strong> <button class="copy-button"
+            data-copy="api-key">Copy</button></p>
     <p>Allowed Tables:</p>
-    <ul>
+    <div class="api-instructions">
         <?php foreach ($allowed_tables as $table) : ?>
-        <li>
-            <?php echo esc_html($table); ?>
-            <br>
-            Endpoint: <code><?php echo esc_url(rest_url("techspace/v1/data/{$table}")); ?></code>
-            <br>
-            cURL example:
-            <pre>curl -X GET '<?php echo esc_url(rest_url("techspace/v1/data/{$table}")); ?>' -H 'X-API-Key: <?php echo esc_html($api_key); ?>'</pre>
-            PHP example:
-            <pre>
-$url = '<?php echo esc_url(rest_url("techspace/v1/data/{$table}")); ?>';
+        <div class="api-table-section">
+            <h3><?php echo esc_html($table); ?></h3>
+            <p>Endpoint: <code
+                    id="endpoint-<?php echo esc_attr($table); ?>"><?php echo esc_url(rest_url("techspace/v1/data/{$table}")); ?></code>
+                <button class="copy-button" data-copy="endpoint-<?php echo esc_attr($table); ?>">Copy</button></p>
+
+            <h4>cURL example:</h4>
+            <pre><code id="curl-<?php echo esc_attr($table); ?>">curl -X GET '<?php echo esc_url(rest_url("techspace/v1/data/{$table}")); ?>' -H 'X-API-Key: <?php echo esc_html($api_key); ?>'</code></pre>
+            <button class="copy-button" data-copy="curl-<?php echo esc_attr($table); ?>">Copy cURL</button>
+
+            <h4>PHP example:</h4>
+            <pre><code id="php-<?php echo esc_attr($table); ?>">$url = '<?php echo esc_url(rest_url("techspace/v1/data/{$table}")); ?>';
 $args = array(
     'headers' => array(
         'X-API-Key' => '<?php echo esc_html($api_key); ?>'
@@ -91,39 +94,96 @@ if (!is_wp_error($response)) {
     $body = wp_remote_retrieve_body($response);
     $data = json_decode($body);
     // Process $data here
-}
-                            </pre>
-        </li>
+}</code></pre>
+            <button class="copy-button" data-copy="php-<?php echo esc_attr($table); ?>">Copy PHP</button>
+        </div>
         <?php endforeach; ?>
-    </ul>
+    </div>
     <?php else : ?>
     <p>You haven't generated an API key yet. Please go to the API Settings page to generate one.</p>
     <?php endif; ?>
 </div>
+
 <script>
-// Use Chart.js to render the API usage chart
-var ctx = document.getElementById('apiUsageChart').getContext('2d');
-var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: <?php echo json_encode(wp_list_pluck($analytics, 'date')); ?>,
-        datasets: [{
-            label: 'API Requests',
-            data: <?php echo json_encode(wp_list_pluck($analytics, 'requests')); ?>,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
+jQuery(document).ready(function($) {
+    // Chart.js code for API usage chart
+    var ctx = document.getElementById('apiUsageChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?php echo json_encode(wp_list_pluck($analytics, 'date')); ?>,
+            datasets: [{
+                label: 'API Requests',
+                data: <?php echo json_encode(wp_list_pluck($analytics, 'requests')); ?>,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
         }
-    }
+    });
+
+    // Copy button functionality
+    $('.copy-button').on('click', function() {
+        var copyText = document.getElementById($(this).data('copy'));
+        var textArea = document.createElement("textarea");
+        textArea.value = copyText.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("Copy");
+        textArea.remove();
+
+        var originalText = $(this).text();
+        $(this).text("Copied!");
+        setTimeout(function() {
+            $(this).text(originalText);
+        }.bind(this), 2000);
+    });
 });
 </script>
+
+<style>
+.api-instructions {
+    margin-top: 20px;
+}
+
+.api-table-section {
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.api-table-section h3 {
+    margin-top: 0;
+}
+
+.api-table-section pre {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    overflow-x: auto;
+}
+
+.copy-button {
+    background: #0085ba;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.copy-button:hover {
+    background: #006799;
+}
+</style>
 <?php
     }
 
